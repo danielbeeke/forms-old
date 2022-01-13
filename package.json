@@ -1,0 +1,28 @@
+{
+  "name": "forms",
+  "version": "1.0.0",
+  "description": "A desktop PWA to edit and create data with forms that have their form definition saved on the web",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "snowpack dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielbeeke/forms.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danielbeeke/forms/issues"
+  },
+  "homepage": "https://github.com/danielbeeke/forms#readme",
+  "dependencies": {
+    "rdf-form": "^0.0.4"
+  },
+  "devDependencies": {
+    "@snowpack/plugin-sass": "^1.4.0",
+    "ube": "^0.2.1",
+    "universal-router": "^9.1.0"
+  }
+}

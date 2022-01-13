@@ -1,0 +1,16 @@
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix forms:    <http://localhost:8080/ontology.ttl#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix vann:    <http://purl.org/vocab/vann/> .
+
+forms:
+    rdf:type                      owl:Ontology ;
+    dcterms:title                 "Forms ontology"@en ;
+    rdfs:label                    "Forms"@en ;
+    dcterms:description           """
+    An ontology for Forms
+    """@en ;
+    vann:preferredNamespacePrefix "forms" ;
+    vann:preferredNamespaceURI    <http://localhost:8080/ontology.ttl#> .

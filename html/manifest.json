@@ -1,0 +1,32 @@
+{
+  "short_name": "Forms",
+  "name": "Forms, use forms",
+  "icons": [
+    {
+      "src": "/assets/logo.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/?source=pwa",
+  "background_color": "#3367D6",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#3367D6",
+  "description": "Create and edit forms",
+  "file_handlers": [
+    {
+      "action": "/?source=pwa",
+      "accept": {
+        "application/form": [".form"]
+      },
+      "icons": [
+        {
+          "src": "form-icon.png",
+          "sizes": "256x256",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}
