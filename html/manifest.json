@@ -1,6 +1,7 @@
 {
   "short_name": "Forms",
-  "name": "Forms, use forms",
+  "name": "Forms",
+  "id": "/?source=pwa",
   "icons": [
     {
       "src": "/assets/logo.svg",
@@ -16,7 +17,7 @@
   "description": "Create and edit forms",
   "file_handlers": [
     {
-      "action": "/?source=pwa",
+      "action": "/file/0?source=pwa",
       "accept": {
         "application/form": [".form"]
       },

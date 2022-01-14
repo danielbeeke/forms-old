@@ -9,42 +9,16 @@ export const Settings = (context) => ({
 
   name: 'settings',
 
-  domainsForm: function () {
-    return html`
-      <form onsubmit=${(event) => {
-        event.preventDefault()
-        if (this.domain && !state.domains.includes(this.domain)) {
-          state.domains = [...state.domains, this.domain]
-        }
-        this.domain = ''
-        app.render()
-      }}>
-        <label>Domain:</label>
-        <input type="url" .value=${this.domain} onkeyup=${(event) => this.domain = event.target.value}>
-        <button>Save</button>
-      </form>
-    `
-  },
-
-  domainsList: function () {
-    return html`
-      <ul>
-        ${state.domains.map(domain => html`<li>${domain} <button onclick=${() => this.deleteDomain(domain)}>${icon('close')}</button></li>`)}
-      </ul>
-    `
-  },
-
-  deleteDomain: function (domain) {
-    state.domains = state.domains.filter(innerDomain => innerDomain !== domain)
-    app.render()
+  async save (event: CustomEvent) {
+    state.settings = event.detail.expanded
   },
 
   template: function () {
     return html`
       ${header()}
-      <h2>Settings</h2>
-      ${this.domainsForm()}
-      ${this.domainsList()}
+
+      <rdf-form class="form" data=${JSON.stringify(state.settings)} onsubmit=${this.save.bind(this)} form="http://localhost:8080/ttl/settings.form.ttl" />
+
     `
   }
 })

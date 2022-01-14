@@ -4,7 +4,7 @@
 /** @type {import('snowpack').SnowpackUserConfig } */
 export default {
   mount: {
-    'src': '/',
+    'src': '/js',
     'html': '/',
     'assets': '/assets',
     'scss': '/css',

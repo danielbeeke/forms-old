@@ -1,0 +1,21 @@
+.create-list {
+  display: flex;
+  margin: 20px auto;
+  max-width: var(--max-width);
+  display: grid;
+  grid-template-columns: repeat(5, minmax(100px, 200px));
+  gap: 20px;
+}
+
+.create-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: var(--color-gray-light) 1px solid;
+  aspect-ratio: 1;
+  text-decoration: none;
+  color: var(--color-text);
+  padding: 20px;
+  text-align: center;
+  background-color: var(--background-color-secondary);
+}

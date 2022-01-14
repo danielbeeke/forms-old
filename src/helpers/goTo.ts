@@ -1,8 +1,6 @@
 import { app } from '../App'
 
 export const goTo = (path) => {
-  if (app.path !== path) {
-    app.path = path
-    return app.render()
-  }
+  if (location.pathname !== path) history.pushState({}, '', path)
+  return app.render()
 }

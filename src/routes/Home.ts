@@ -1,6 +1,5 @@
 import { html } from 'ube'
 import { header } from '../templates/header'
-import { app } from '../App'
 import { state } from '../services/State'
 
 export const Home = (context) => ({
@@ -8,10 +7,14 @@ export const Home = (context) => ({
   async template () {
     const forms = await state.getForms()
 
-    console.log(forms)
-
     return html`
       ${header()}
+
+      <div class="create-list">
+        ${forms.map(({ hash, label }: { hash: string, label: string }) => html`
+          <a class="create-item" href=${`/new/${hash}`}>${label}</a>
+        `)}
+      </div>
     `
   }
 })

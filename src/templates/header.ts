@@ -1,11 +1,10 @@
 import { html } from 'ube'
-import { icon } from '../helpers/icon'
+import { tabs } from './tabs'
 
-export const header = () => {
+export const header = (params = {}, newTabTitle = '') => {
   return html`
     <header class="app-header">
-      <a href="/"><h1>Forms</h1></a>
-      <a href="/settings">${icon('settings')}</a>
+      ${tabs(params, newTabTitle)}
     </header>
   `
 }

@@ -5,18 +5,18 @@
 @prefix dcterms:    <http://purl.org/dc/terms/> .
 @prefix vann:       <http://purl.org/vocab/vann/> .
 @prefix form:       <http://rdf.danielbeeke.nl/form/form-dev.ttl#> .
-@prefix recipeForm: <http://localhost:8070/example.form#recipeForm> .
+@prefix recipeForm: <http://localhost:8070/example.form#> .
 @prefix schema:     <http://schema.org/> .
 
-<http://localhost:8070/example.form#recipeForm>
+<http://localhost:8080/ttl/recipe.form.ttl#>
     form:binding schema:Thing ;
-    form:label       "Recept"@en ;
+    form:label       "Recipe"@en ;
     a            form:Form .
     
-recipeForm:language
-    a                 form:UiComponent ;
-    form:widget       "language-picker" ;
-    form:order        1 .
+# recipeForm:language
+#     a                 form:UiComponent ;
+#     form:widget       "language-picker" ;
+#     form:order        1 .
     
 # recipeForm:languageTabs
 #     a                 form:UiComponent ;
@@ -43,27 +43,12 @@ recipeForm:ingredients
 
 recipeForm:ingredient
     a                 form:Field ;
-    form:widget       "reference" ;
+    form:widget       "string" ;
     form:label             "Ingredient"@en ;
     form:label             "Ingrediënt"@nl ;
     form:group        "ingredients" ;
     form:required          true ;
     form:binding           recipe:ingredient ;
-    form:placeholder       "Search for an ingredient."@en ;
-    form:placeholder       "Zoek naar een ingredient."@nl ;
-    form:autoCompleteQuery """
-    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    PREFIX dbo:  <http://dbpedia.org/ontology/>
-    PREFIX bif: <bif:>
-    SELECT DISTINCT ?uri ?label ?image {
-      ?o dbo:ingredient ?uri .
-      ?uri rdfs:label ?label .
-      ?uri dbo:thumbnail ?image .
-      ?label bif:contains "'SEARCH_TERM'" .
-      filter langMatches(lang(?label), "LANGUAGE")
-    }
-    LIMIT 10
-    """ ;
     form:order             1 .
 
 recipeForm:quantity

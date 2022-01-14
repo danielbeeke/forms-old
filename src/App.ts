@@ -9,8 +9,7 @@ import '/css/styles.css'
 class App {
 
   private router: UniversalRouter
-  public openFiles: Array<File> = []
-  public path: string = '/'
+  public openFiles: Array<FileSystemFileHandle> = []
   public queryEngine: any
 
   constructor () {
@@ -20,7 +19,9 @@ class App {
   async init () {
     this.router = Router
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js')
-    if ('launchQueue' in window) window.launchQueue.setConsumer(launchParams => this.openFiles = launchParams.files)
+    if ('launchQueue' in window) window.launchQueue.setConsumer(launchParams => {
+      this.openFiles = launchParams.files
+    })
 
     const { newEngine } = await importGlobalScript('https://rdf.js.org/comunica-browser/versions/latest/packages/actor-init-sparql/comunica-browser.js', 'Comunica') as ComunicaExport
     this.queryEngine = newEngine()
@@ -37,11 +38,13 @@ class App {
     })
 
     await this.render()
+
+    window.addEventListener('popstate', () => this.render())
   }
 
   async render () {
     try {
-      const route = await Router.resolve({ pathname: this.path })
+      const route = await Router.resolve({ pathname: location.pathname })
       render(document.body, await route.template())
     }
     catch (exception) {
