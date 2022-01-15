@@ -26,3 +26,14 @@ declare global {
 export type ComunicaExport = {
   newEngine: Function
 }
+
+export type Tab = {
+  title: string,
+  data?: any,
+  id?: string,
+  link: string,
+  weight: number,
+  jsonLd?: any,
+  fileHandle?: FileSystemFileHandle,
+  closable: boolean
+}

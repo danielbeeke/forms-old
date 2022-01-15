@@ -1,30 +1,46 @@
 import 'rdf-form'
 import { Router } from './core/Router'
-import UniversalRouter from 'universal-router'
 import { render } from 'ube'
 import { goTo } from './helpers/goTo'
-import { importGlobalScript } from './helpers/importGlobalScript'
 import '/css/styles.css'
+import { icon } from './helpers/icon'
+import { state } from './services/State'
 
 class App {
-
-  private router: UniversalRouter
-  public openFiles: Array<FileSystemFileHandle> = []
-  public queryEngine: any
 
   constructor () {
     this.init()
   }
 
   async init () {
-    this.router = Router
-    if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js')
-    if ('launchQueue' in window) window.launchQueue.setConsumer(launchParams => {
-      this.openFiles = launchParams.files
+    window.addEventListener('render', () => this.render())
+    window.addEventListener('popstate', () => this.render())
+
+    state.addTab({
+      title: icon('add'),
+      link: '/',
+      closable: false,
+      weight: 1000
     })
 
-    const { newEngine } = await importGlobalScript('https://rdf.js.org/comunica-browser/versions/latest/packages/actor-init-sparql/comunica-browser.js', 'Comunica') as ComunicaExport
-    this.queryEngine = newEngine()
+    state.addTab({
+      title: icon('settings'),
+      link: '/settings',
+      closable: false,
+      weight: 99999,
+    })
+
+    if (!location.search.includes('source') && 'serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js')
+    if ('launchQueue' in window) window.launchQueue.setConsumer(launchParams => {
+      const promises = launchParams.files.map(fileHandle => state.addTab({
+        fileHandle,
+        closable: true
+      }))
+
+      Promise.all(promises).then(tabs => {
+        goTo(tabs.at(-1)?.link)
+      })
+    })
 
     document.body.addEventListener('click', (event: Event & { target: HTMLElement }) => {
       const link = event.target.nodeName !== 'A' ? event.target.closest('a') : event.target
@@ -38,18 +54,12 @@ class App {
     })
 
     await this.render()
-
-    window.addEventListener('popstate', () => this.render())
   }
 
   async render () {
-    try {
-      const route = await Router.resolve({ pathname: location.pathname })
-      render(document.body, await route.template())
-    }
-    catch (exception) {
-      console.error(exception)
-    }
+    const route = await Router.resolve({ pathname: location.pathname })
+    const template = await route.template()
+    render(document.body, template)
   }
 }
 

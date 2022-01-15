@@ -4,7 +4,6 @@ const CACHE_NAME = `cache-v${cacheVersion}`;
 // The resources cached by this service worker.
 const resources = [
   '/',
-  'js/App.js'
 ];
 
 // Load all resources for this service worker.

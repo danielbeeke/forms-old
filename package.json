@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/danielbeeke/forms#readme",
   "dependencies": {
-    "rdf-form": "^0.0.7"
+    "rdf-form": "^0.0.8"
   },
   "devDependencies": {
     "@snowpack/plugin-sass": "^1.4.0",

@@ -1,3 +1,8 @@
+/**
+ * A small hash function.
+ * @param source 
+ * @returns 
+ */
 export async function hash(source) {
   const sourceBytes = new TextEncoder().encode(source);
   const digest = await crypto.subtle.digest("SHA-256", sourceBytes);

@@ -1,10 +1,10 @@
 import { html } from 'ube'
 import { tabs } from './tabs'
 
-export const header = (params = {}, newTabTitle = '') => {
+export const header = () => {
   return html`
     <header class="app-header">
-      ${tabs(params, newTabTitle)}
+      ${tabs()}
     </header>
   `
 }

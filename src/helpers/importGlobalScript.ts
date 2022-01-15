@@ -1,3 +1,9 @@
+/**
+ * Imports a script to the HTML head.
+ * @param url 
+ * @param name 
+ * @returns 
+ */
 export const importGlobalScript = async (url: string, name: string) => {
     return new Promise((resolve) => {
         const script = document.createElement('script')

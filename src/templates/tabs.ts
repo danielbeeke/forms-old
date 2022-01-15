@@ -1,33 +1,23 @@
 import { html } from 'ube'
-import { app } from '../App'
 import { icon } from '../helpers/icon'
+import { Tab } from '../types'
+import { state } from '../services/State'
+import { goTo } from '../helpers/goTo'
 
-export const tabs = (params: {[key: string]: string} = {}, newTabTitle: string = '') => {
-  const activeFile = params.file
-
+export const tabs = () => {
   return html`
     <nav class="tabs">
-      ${app.openFiles.map((file: FileSystemFileHandle, index: number) => html`
-        <span class=${`tab ${activeFile === index.toString() ? 'active' : ''}`}>
-          <a class="tab-link" href=${`/file/${index}`}>${file.name.replace('.form', '')}</a>
-          <button class="close-file">${icon('close')}</button>
+      ${state.tabs.sort((a, b) => a.weight - b.weight).map((tab: Tab) => html`
+        <span class=${`tab ${tab.link === location.pathname ? 'active' : ''}`}>
+          <a class="tab-link" href=${tab.link}>${tab.title}</a>
+          ${tab.closable ? html`
+            <button class="close-file" onclick=${() => {
+              state.removeTab(tab)
+              goTo('/')
+            }}>${icon('close')}</button>
+          `: null}
         </span>
       `)}
-
-      ${location.pathname.startsWith('/new') ? html`
-      <span class="tab active">
-        <span class="tab-link">${newTabTitle}</a>
-      </span>
-      ` : null}
-
-      <span class=${`tab ${location.pathname === '/' ? 'active' : ''}`}>
-        <a href="/" class="goto-home">${icon('add')}</a>
-      </span>
-
-      <span class=${`tab end ${location.pathname === '/settings' ? 'active' : ''}`}>
-        <a class="goto-settings" href="/settings">${icon('settings')}</a>
-      </span>
-      
     </nav>
   `
 }
