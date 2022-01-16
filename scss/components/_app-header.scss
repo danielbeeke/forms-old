@@ -1,3 +1,16 @@
 .app-header {
   background-color: var(--color-secondary);
+  position: relative;
+
+  &:after {
+    content: '';
+    display: block;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, var(--color-secondary) 5%);
+    width: 155px;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 1;
+  }
 }

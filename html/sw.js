@@ -24,7 +24,7 @@ self.addEventListener("activate", e => {
 
 self.addEventListener('fetch', function (event) {
   event.respondWith(
-    caches.open('dynamic').then(function (cache) {
+    caches.open(CACHE_NAME).then(function (cache) {
       return cache.match(event.request).then(function (response) {
         return (
           response ||

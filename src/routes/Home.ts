@@ -3,6 +3,8 @@ import { header } from '../templates/header'
 import { state } from '../services/State'
 import { goTo } from '../helpers/goTo'
 
+let webManifest = null
+
 /**
  * Shows a list of forms to create.
  * 
@@ -13,6 +15,11 @@ export const Home = (context) => ({
   async template () {
     const forms = await state.getForms()
 
+    if (!webManifest) {
+      const reponse = await fetch('/manifest.json')
+      webManifest = await reponse.json()
+    }
+
     return html`
       ${header()}
 
@@ -22,8 +29,8 @@ export const Home = (context) => ({
           const fileHandles = await window.showOpenFilePicker({
             multiple: true,
             types: [{
-              description: 'Form file',
-              accept: {'application/form': ['.form']},
+              description: webManifest.file_handlers[0].name,
+              accept: webManifest.file_handlers[0].accept,
             }]
           })
 

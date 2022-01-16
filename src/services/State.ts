@@ -3,7 +3,8 @@ import { hash } from '../helpers/hash'
 import { Tab } from '../types'
 import { importGlobalScript } from '../helpers/importGlobalScript'
 import { Store, Parser } from 'n3'
-import { toRDF } from 'jsonld';
+import { toRDF, expand } from 'jsonld';
+import ttl2jsonld from '@frogcat/ttl2jsonld'
 
 class State {
 
@@ -88,12 +89,18 @@ class State {
       newTab.title = newTab.fileHandle.name
       const file = await newTab.fileHandle.getFile()
       const text = await file.text()
-
-      try {
-        newTab.jsonLd = JSON.parse(text)
+      
+      if (file.name.includes('.ttl')) {
+        newTab.jsonLd = await ttl2jsonld.parse(text)
       }
-      catch (exception) {
-        newTab.jsonLd = {}
+      else {
+        try {
+          const originalJsonLd = JSON.parse(text)
+          newTab.jsonLd = (await expand(originalJsonLd))[0]
+        }
+        catch (exception) {
+          newTab.jsonLd = {}
+        }  
       }
     }
 

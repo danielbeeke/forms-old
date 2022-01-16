@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/danielbeeke/forms#readme",
   "dependencies": {
+    "@frogcat/ttl2jsonld": "^0.0.6",
     "@triply/yasgui": "^4.2.21",
     "jsonld": "^5.2.0",
     "rdf-form": "^0.0.8"

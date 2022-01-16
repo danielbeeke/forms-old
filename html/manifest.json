@@ -18,8 +18,11 @@
   "file_handlers": [
     {
       "action": "/?source=pwa",
+      "name": "RDF files (json+ld and ttl)",
       "accept": {
-        "application/form": [".form"]
+        "application/ld+json": [".jsonld"],
+        "application/form": [".form"],
+        "text/turtle": [".ttl"]
       },
       "icons": [
         {
