@@ -10,14 +10,13 @@ import { goTo } from '../helpers/goTo'
  * @returns 
  */
 export const Home = (context) => ({
-  name: 'home',
   async template () {
     const forms = await state.getForms()
 
     return html`
       ${header()}
 
-      <div class="create-list">
+      <div class="inner">
         <h2>Load existing file(s)</h2>
         <button onclick=${async () => {
           const fileHandles = await window.showOpenFilePicker({
@@ -39,9 +38,7 @@ export const Home = (context) => ({
           if (iniatedTab) goTo(iniatedTab.link)
 
         }}>Select</button>
-      </div>
 
-      <div class="create-list">
         <h2>Create a new file</h2>
         ${forms.map((form) => html`
           <button onclick=${async () => {

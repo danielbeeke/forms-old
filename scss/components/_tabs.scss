@@ -1,7 +1,6 @@
 .tabs {
   display: flex;
   padding: 20px 20px;
-  min-height: 69px;
   padding-bottom: 0;
   overflow: hidden;
   margin-top: -10px;
@@ -14,9 +13,12 @@
   align-items: center;
   border-top-left-radius: var(--radius);
   border-top-right-radius: var(--radius);
+  background-color: var(--color-secondary-dim);
+  transition: all var(--speed) var(--easing);
+  box-shadow: 0 0 4px rgba(black, .0);
 
   .tab-link {
-    padding: 15px 20px;
+    padding: 10px 20px;
     text-decoration: none;
     cursor: pointer;
     color: var(--color-text);
@@ -24,7 +26,15 @@
 
   .icon {
     width: 20px;
-  } 
+  }
+
+  &.settings {
+    margin-left: auto;
+  }
+
+  &.unsaved {
+    font-weight: bold;
+  }
 
   .close-file {
     appearance: none;
@@ -49,6 +59,7 @@
     margin-left: auto;
   }
 
+  &:hover,
   &.active {
     background-color: var(--background-color);
     box-shadow: 0 0 4px rgba(black, .3);

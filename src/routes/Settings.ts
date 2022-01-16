@@ -7,17 +7,19 @@ import { state } from '../services/State'
  * @returns 
  */
 export const Settings = () => ({
-  name: 'settings',
   async save (event: CustomEvent) {
     state.settings = event.detail.expanded
   },
   template: function () {
     return html`
       ${header()}
-      <rdf-form class="form" 
-      data=${JSON.stringify(state.settings)} 
-      onsubmit=${this.save.bind(this)} 
-      form="http://localhost:8080/ttl/settings.form.ttl" />
+      <div class="inner">
+        <h2>Settings</h2>
+        <rdf-form class="form" 
+        data=${JSON.stringify(state.settings)} 
+        onsubmit=${this.save.bind(this)} 
+        form="/ttl/settings.form.ttl" />
+      </div>
     `
   }
 })

@@ -6,3 +6,8 @@ body {
 * {
   box-sizing: border-box;
 }
+
+.inner {
+  margin: 50px auto 20px;
+  max-width: var(--max-width);
+}

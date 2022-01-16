@@ -2,18 +2,14 @@ import UniversalRouter from 'universal-router'
 import { Home } from '../routes/Home'
 import { File } from '../routes/File'
 import { Settings } from '../routes/Settings'
-import { NotFound } from '../routes/NotFound'
+import { Sparql } from '../routes/Sparql'
 
 const routes = [
   { path: '/', action: Home },
   { path: '/file/:file', action: File },
   { path: '/settings', action: Settings },
-  { path: '(.*)', action: NotFound }
+  { path: '/sparql', action: Sparql },
+  { path: '(.*)', action: Home }
 ]
 
-export const Router = new UniversalRouter({
-  async action({ next }) {
-    return await next()
-  },
-  children: routes
-})
+export const Router = new UniversalRouter(routes)

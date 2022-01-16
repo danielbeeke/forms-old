@@ -22,6 +22,12 @@ class App {
       closable: false,
       weight: 1000
     })
+    state.addTab({
+      title: icon('insights'),
+      link: '/sparql',
+      closable: false,
+      weight: 99998,
+    })
 
     state.addTab({
       title: icon('settings'),
@@ -37,9 +43,7 @@ class App {
         closable: true
       }))
 
-      Promise.all(promises).then(tabs => {
-        goTo(tabs.at(-1)?.link)
-      })
+      Promise.all(promises).then(tabs => goTo(tabs.at(-1)?.link))
     })
 
     document.body.addEventListener('click', (event: Event & { target: HTMLElement }) => {

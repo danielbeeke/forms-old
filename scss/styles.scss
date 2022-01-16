@@ -4,8 +4,7 @@
 @import './components/icon';
 @import './components/form';
 @import './components/app-header';
-@import './components/create-list';
-@import './components/page-title';
+@import './components/create-item';
 
 :root {
   --radius: 4px;
@@ -18,8 +17,11 @@
   --color-gray-medium: #908989;
   --color-primary: #99e9ab;
   --color-primary-darker: #45a35b;
+  --color-secondary-dim: #caddcd;
   --color-secondary: #b0c6b4;
   --color-danger: #cd4d4d;
   --color-text: #102406;
   --max-width: 1280px;
+  --speed: .3s;
+  --easing: ease-in-out;
 }

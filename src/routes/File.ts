@@ -12,8 +12,6 @@ import { app } from '../App'
  * @returns 
  */
 export const File = (context) => ({
-  name: 'file',
-
   tab: null,
 
   save: async function (event: CustomEvent) {

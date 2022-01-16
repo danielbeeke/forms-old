@@ -1,18 +1,20 @@
-import { app } from '../App'
 import { bindingsToObjects } from '../helpers/bindingsToObjects'
 import { hash } from '../helpers/hash'
 import { Tab } from '../types'
 import { importGlobalScript } from '../helpers/importGlobalScript'
+import { Store } from 'n3'
 
 class State {
 
   private forms: Array<{label: string, form: string, hash: string, binding: string }> = null
   #tabs: Array<Tab> = []
+  #store: Store
   public queryEngine: any
 
   async init () {
     const { newEngine } = await importGlobalScript('https://rdf.js.org/comunica-browser/versions/latest/packages/actor-init-sparql/comunica-browser.js', 'Comunica') as ComunicaExport
     this.queryEngine = newEngine()
+    this.#store = new Store()
   }
 
   get domains () {
@@ -25,6 +27,10 @@ class State {
 
   set settings (newValue) {
     localStorage.settings = JSON.stringify(newValue)
+  }
+
+  get store () {
+    return this.#store
   }
 
   async getForms () {
@@ -81,7 +87,7 @@ class State {
     }
 
     if (!newTab.link) {
-      newTab.id = await hash((new Date()).getTime())
+      newTab.id = await hash(newTab.jsonLd + Math.random() + (new Date()).getTime())
       newTab.link = `/file/${newTab.id}`
     }
 
