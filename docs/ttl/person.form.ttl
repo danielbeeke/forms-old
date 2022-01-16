@@ -1,0 +1,23 @@
+@prefix rdf:        <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:       <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:        <http://www.w3.org/2002/07/owl#> .
+@prefix dcterms:    <http://purl.org/dc/terms/> .
+@prefix vann:       <http://purl.org/vocab/vann/> .
+@prefix form:       <http://rdf.danielbeeke.nl/form/form-dev.ttl#> .
+@prefix personForm: <http://localhost:8080/person.form.ttl#> .
+@prefix schema:     <http://schema.org/> .
+
+<http://localhost:8080/ttl/person.form.ttl#>
+    form:binding schema:Person ;
+    form:label       "Person"@en ;
+    a            form:Form .
+    
+personForm:title
+    a                 form:Field ;
+    form:widget  "string" ;
+    form:label        "Title"@en ;
+    form:label        "Titel"@nl ;
+    form:binding      schema:name ;
+    form:order        1 ;
+    form:translatable true ;
+    form:required     true .

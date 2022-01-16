@@ -14,6 +14,8 @@ export default {
     '@snowpack/plugin-sass'
   ],
   packageOptions: {
+    namedExports: ["static-params/strict"],
+
   },
   devOptions: {
     /* ... */
@@ -28,4 +30,7 @@ export default {
       dest: '/index.html',
     },
   ],
+  buildOptions: {
+    out: 'docs'
+  },
 };
