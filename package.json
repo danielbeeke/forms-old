@@ -19,10 +19,12 @@
   "homepage": "https://github.com/danielbeeke/forms#readme",
   "dependencies": {
     "@triply/yasgui": "^4.2.21",
+    "jsonld": "^5.2.0",
     "rdf-form": "^0.0.8"
   },
   "devDependencies": {
     "@snowpack/plugin-sass": "^1.4.0",
+    "@types/jsonld": "^1.5.6",
     "@types/wicg-native-file-system": "^2020.6.0",
     "ube": "^0.2.1",
     "universal-router": "^9.1.0"

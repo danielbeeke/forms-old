@@ -2,7 +2,8 @@ import { bindingsToObjects } from '../helpers/bindingsToObjects'
 import { hash } from '../helpers/hash'
 import { Tab } from '../types'
 import { importGlobalScript } from '../helpers/importGlobalScript'
-import { Store } from 'n3'
+import { Store, Parser } from 'n3'
+import { toRDF } from 'jsonld';
 
 class State {
 
@@ -15,6 +16,16 @@ class State {
     const { newEngine } = await importGlobalScript('https://rdf.js.org/comunica-browser/versions/latest/packages/actor-init-sparql/comunica-browser.js', 'Comunica') as ComunicaExport
     this.queryEngine = newEngine()
     this.#store = new Store()
+    const parser = new Parser({ format: "application/n-quads" });
+    window.addEventListener('tab-added', async (event: CustomEvent) => {
+      if (event.detail.jsonLd) {
+        const nquads = await toRDF(event.detail.jsonLd, {format: 'application/n-quads'})
+        await parser.parse(nquads, (error, quad, prefixes) => {
+          if (error) console.log(`PARSE ERROR: ${error}`)
+          if (quad) this.#store.addQuad(quad)
+        })
+      }
+    })
   }
 
   get domains () {
@@ -92,6 +103,10 @@ class State {
     }
 
     this.#tabs.push(newTab)
+
+    window.dispatchEvent(new CustomEvent('tab-added', {
+      detail: newTab
+    }))
 
     return newTab
   }
