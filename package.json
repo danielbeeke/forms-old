@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "snowpack dev --polyfill-node",
-    "build": "snowpack build --polyfill-node"
+    "build": "snowpack build --polyfill-node && echo \"forms.danielbeeke.nl\" > docs/CNAME && cp docs/index.html docs/404.html"
   },
   "repository": {
     "type": "git",
