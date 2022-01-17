@@ -46,10 +46,6 @@ export const File = (context) => ({
     const types = this.tab?.jsonLd?.['@type'] ?? []
 
     let form
-    for (const type of types) {
-      const formMatch = forms.find(form => form.binding === type)
-      form = formMatch?.form
-    }
 
     if (!form) {
       for (const type of types) {
@@ -59,12 +55,18 @@ export const File = (context) => ({
           SELECT ?form {
             <${type}> form:Form ?form .
           }
-        `, { sources: [type]})
+        `, { sources: [type.replace('http://', 'https://')]})
 
         const [givenForm] = await bindingsToObjects(reponse)
         form = givenForm
-        console.log(form)
       }
+    }
+
+    if (!form) {
+      for (const type of types) {
+        const formMatch = forms.find(form => form.binding === type)
+        form = formMatch?.form
+      }  
     }
 
     if (!form) {
