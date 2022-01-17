@@ -64,7 +64,7 @@ export const File = (context) => ({
       ${header()}
       <rdf-form class="form" 
       onsubmit=${this.save.bind(this)} 
-      form=${form} 
+      form=${form.replace("http://", "https://")} 
       data=${JSON.stringify(this.tab.jsonLd)} />
     `;
   }
