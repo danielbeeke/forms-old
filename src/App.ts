@@ -1,4 +1,4 @@
-import 'rdf-form'
+import './RdfForm.js'
 import { Router } from './core/Router'
 import { render } from 'ube'
 import { goTo } from './helpers/goTo'

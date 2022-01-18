@@ -4,6 +4,7 @@ import { state } from '../services/State'
 import { goTo } from '../helpers/goTo'
 import { app } from '../App'
 import { bindingsToObjects } from '../helpers/bindingsToObjects'
+import { formOntology, proxy } from '../core/Constants'
 
 /**
  * Given a file loaded via the operating system,
@@ -50,7 +51,7 @@ export const File = (context) => ({
     if (!form) {
       for (const type of types) {
         const reponse = await state.queryEngine.query(`
-          PREFIX form: <http://rdf.danielbeeke.nl/form/form-dev.ttl#>
+          PREFIX form: <${formOntology}>
 
           SELECT ?form {
             <${type}> form:Form ?form .
@@ -81,6 +82,7 @@ export const File = (context) => ({
     return html.for(this.tab)`
       ${header()}
       <rdf-form class="form" 
+      proxy="${proxy}"
       onsubmit=${this.save.bind(this)} 
       form=${form.replace('http://', 'https://')} 
       data=${JSON.stringify(this.tab.jsonLd)} />

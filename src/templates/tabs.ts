@@ -7,22 +7,30 @@ import { goTo } from '../helpers/goTo'
 export const tabs = () => {
   return html`
     <nav class="tabs">
-      ${state.tabs.sort((a, b) => a.weight - b.weight).map((tab: Tab) => html`
-        <span class=${`tab ${!tab.closable ? 'sticky' : ''} ${tab.jsonLd && !tab.fileHandle ? 'unsaved' : ''} ${tab.link.substr(1)} ${tab.link === location.pathname ? 'active' : ''}`}>
-          <a class="tab-link" href=${tab.link} onclick=${event => {
-            event.target.scrollIntoView()
-          }}>
-            ${tab.title}
-            ${tab.jsonLd && !tab.fileHandle ? html`<span class="unsaved">*</span>` : ''}
-          </a>
-          ${tab.closable ? html`
-            <button class="close-file" onclick=${() => {
-              state.removeTab(tab)
-              goTo('/')
-            }}>${icon('close')}</button>
-          `: null}
-        </span>
-      `)}
+      ${state.tabs.sort((a, b) => a.weight - b.weight).map((tab: Tab) => {
+        const classes = ['tab', tab.link.substr(1)]
+
+        if (!tab.closable) classes.push('sticky')
+        if (tab.jsonLd && !tab.fileHandle) classes.push('unsaved')
+        if (tab.link === location.pathname) classes.push('active')
+
+        return html`
+          <span class=${classes.join(' ')}>
+            <a class="tab-link" href=${tab.link} onclick=${event => {
+              event.target.scrollIntoView()
+            }}>
+              ${tab.title}
+              ${tab.jsonLd && !tab.fileHandle ? html`<span class="unsaved">*</span>` : ''}
+            </a>
+            ${tab.closable ? html`
+              <button class="close-file" onclick=${() => {
+                state.removeTab(tab)
+                goTo('/')
+              }}>${icon('close')}</button>
+            `: null}
+          </span>
+        `
+      })}
     </nav>
   `
 }

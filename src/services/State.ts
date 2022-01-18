@@ -1,10 +1,11 @@
 import { bindingsToObjects } from '../helpers/bindingsToObjects'
 import { hash } from '../helpers/hash'
-import { Tab } from '../types'
+import { Tab, ComunicaExport } from '../types'
 import { importGlobalScript } from '../helpers/importGlobalScript'
 import { Store, Parser } from 'n3'
 import { toRDF, expand } from 'jsonld';
 import ttl2jsonld from '@frogcat/ttl2jsonld'
+import { formOntology, formsAppOntology, schemaUrl, comunicaUrl } from '../core/Constants'
 
 class State {
 
@@ -14,7 +15,7 @@ class State {
   public queryEngine: any
 
   async init () {
-    const { newEngine } = await importGlobalScript('https://rdf.js.org/comunica-browser/versions/latest/packages/actor-init-sparql/comunica-browser.js', 'Comunica') as ComunicaExport
+    const { newEngine } = await importGlobalScript(comunicaUrl, 'Comunica') as ComunicaExport
     this.queryEngine = newEngine()
     this.#store = new Store()
     const parser = new Parser({ format: "application/n-quads" });
@@ -30,7 +31,7 @@ class State {
   }
 
   get domains () {
-    return this.settings?.['http://schema.org/url']?.map(item => item['@value']) ?? []
+    return this.settings?.[schemaUrl]?.map(item => item['@value']) ?? []
   }
 
   get settings () {
@@ -49,7 +50,7 @@ class State {
     if (this.forms !== null) return this.forms
 
     const formsResponse = await this.queryEngine.query(`
-      PREFIX forms: <http://localhost:8080/ttl/ontology.ttl#>
+      PREFIX forms: <${formsAppOntology}>
       SELECT ?o WHERE { ?s forms:availableForm ?o }
     `, {
       sources: this.domains
@@ -58,7 +59,7 @@ class State {
     const formsUrls = await bindingsToObjects(formsResponse)
 
     const labelsResponse = await this.queryEngine.query(`
-      PREFIX form: <http://rdf.danielbeeke.nl/form/form-dev.ttl#>
+      PREFIX form: <${formOntology}>
       SELECT ?label ?form ?binding WHERE { 
         ?form a form:Form .
         ?form form:label ?label . 

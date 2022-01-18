@@ -8,17 +8,14 @@ export default {
     'html': '/',
     'assets': '/assets',
     'scss': '/css',
-    'ttl': '/ttl'
+    'ttl': '/ttl',
+    '../rdf-form/build/js': '/js'
   },
   plugins: [
     '@snowpack/plugin-sass'
   ],
-  packageOptions: {
-    namedExports: ["static-params/strict"],
-
-  },
   devOptions: {
-    /* ... */
+    secure: true
   },
   buildOptions: {
     /* ... */

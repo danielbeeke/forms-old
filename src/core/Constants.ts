@@ -1,0 +1,5 @@
+export const formOntology = 'http://rdf.danielbeeke.nl/form/form-dev.ttl#'
+export const proxy = 'https://thingproxy.freeboard.io/fetch/'
+export const formsAppOntology = '/ttl/ontology.ttl#'
+export const schemaUrl = 'http://schema.org/url'
+export const comunicaUrl = 'https://rdf.js.org/comunica-browser/versions/latest/packages/actor-init-sparql/comunica-browser.js'

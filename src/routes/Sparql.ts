@@ -30,8 +30,12 @@ export const Sparql = (context) => ({
           yasqe.refresh()
 
           yasqe.on('query', async (instance, request) => {
-            const response = await state.queryEngine.query(request._data.query, { sources: [state.store] })
-            const { data: result } = await state.queryEngine.resultToString(response, 'application/sparql-results+json');
+            const response = await state.queryEngine
+            .query(request._data.query, { sources: [state.store] })
+
+            const { data: result } = await state.queryEngine
+            .resultToString(response, 'application/sparql-results+json')
+            
             let output = ''
             result.on('data', (part) => output += part)
             result.on('end', () => yasr.setResponse(output))
