@@ -3,9 +3,7 @@ import { hash } from '../helpers/hash'
 import { Tab, ComunicaExport } from '../types'
 import { importGlobalScript } from '../helpers/importGlobalScript'
 import { Store, Parser } from 'n3'
-import { toRDF, expand } from 'jsonld';
-import ttl2jsonld from '@frogcat/ttl2jsonld'
-import { formOntology, formsAppOntology, schemaUrl, comunicaUrl } from '../core/Constants'
+import { formOntology, formsAppOntology, schemaUrl, comunicaUrl, rdf, sh } from '../core/Constants'
 
 class State {
 
@@ -18,17 +16,6 @@ class State {
     const { newEngine } = await importGlobalScript(comunicaUrl, 'Comunica') as ComunicaExport
     this.queryEngine = newEngine()
     this.#store = new Store()
-    const parser = new Parser({ format: "application/n-quads" });
-    window.addEventListener('tab-added', async (event: CustomEvent) => {
-      if (event.detail.jsonLd) {
-        console.log(event.detail.jsonLd)
-        const nquads = await toRDF(event.detail.jsonLd, {format: 'application/n-quads'})
-        await parser.parse(nquads, (error, quad, prefixes) => {
-          if (error) console.log(`PARSE ERROR: ${error}`)
-          if (quad) this.#store.addQuad(quad)
-        })
-      }
-    })
   }
 
   get domains () {
@@ -91,25 +78,31 @@ class State {
 
     if (newTab.fileHandle) {
       newTab.title = newTab.fileHandle.name
-      const file = await newTab.fileHandle.getFile()
+
+      const file = newTab.fileHandle
       const text = await file.text()
-      
+      newTab.text = text
+
       if (file.name.includes('.ttl')) {
-        newTab.jsonLd = await ttl2jsonld.parse(text)
+        const parser = new Parser()
+        const quads = await parser.parse(text)
+        newTab.store = new Store(quads)
+
+        const hasShaclShapes = await newTab.store.match(null, rdf('type'), sh('NodeShape')).toArray()
+
+        if (hasShaclShapes?.length) {
+          console.log(newTab)
+
+          return
+        }
       }
       else {
-        try {
-          const originalJsonLd = JSON.parse(text)
-          newTab.jsonLd = (await expand(originalJsonLd))[0]
-        }
-        catch (exception) {
-          newTab.jsonLd = {}
-        }  
+        throw new Error('Unknown file type')
       }
     }
 
     if (!newTab.link) {
-      newTab.id = await hash(newTab.jsonLd + Math.random() + (new Date()).getTime())
+      newTab.id = await hash(newTab.title + Math.random() + (new Date()).getTime())
       newTab.link = `/file/${newTab.id}`
     }
 

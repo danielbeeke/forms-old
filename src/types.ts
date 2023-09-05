@@ -1,4 +1,5 @@
 import { html } from 'ube'
+import { Store } from 'n3'
 
 export type RouteWithTemplate = {
   template: () => typeof html,
@@ -30,10 +31,11 @@ export type ComunicaExport = {
 export type Tab = {
   title: string,
   data?: any,
+  text?: string,
   id?: string,
   link: string,
   weight: number,
-  jsonLd?: any,
-  fileHandle?: FileSystemFileHandle,
+  store?: Store,
+  fileHandle?: File,
   closable: boolean
 }

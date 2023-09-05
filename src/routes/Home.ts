@@ -2,8 +2,8 @@ import { html } from 'ube'
 import { header } from '../templates/header'
 import { state } from '../services/State'
 import { goTo } from '../helpers/goTo'
-
-let webManifest = null
+import { fileOpen } from 'browser-fs-access'
+import WebManifest from '../../public/manifest.json' assert { type: 'json' }
 
 /**
  * Shows a list of forms to create.
@@ -15,23 +15,15 @@ export const Home = (context) => ({
   async template () {
     const forms = await state.getForms()
 
-    if (!webManifest) {
-      const reponse = await fetch('/manifest.json')
-      webManifest = await reponse.json()
-    }
-
     return html`
       ${header()}
 
       <div class="inner">
         <h2>Load existing file(s)</h2>
         <button onclick=${async () => {
-          const fileHandles = await window.showOpenFilePicker({
+          const fileHandles = await fileOpen({
             multiple: true,
-            types: [{
-              description: webManifest.file_handlers[0].name,
-              accept: webManifest.file_handlers[0].accept,
-            }]
+            extensions: WebManifest.file_handlers.flatMap(handler => Object.values(handler.accept).flat())
           })
 
           let iniatedTab

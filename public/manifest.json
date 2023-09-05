@@ -21,12 +21,11 @@
       "name": "RDF files (json+ld and ttl)",
       "accept": {
         "application/ld+json": [".jsonld"],
-        "application/form": [".form"],
         "text/turtle": [".ttl"]
       },
       "icons": [
         {
-          "src": "form-icon.png",
+          "src": "/assets/logo.svg",
           "sizes": "256x256",
           "type": "image/png"
         }
