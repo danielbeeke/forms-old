@@ -1,10 +1,12 @@
-import './RdfForm.js'
-import { Router } from './core/Router'
 import { render } from 'ube'
 import { goTo } from './helpers/goTo'
-import '/css/styles.css'
+import '/scss/styles.scss'
 import { icon } from './helpers/icon'
 import { state } from './services/State'
+import { init, defaultOptions } from '@om-mediaworks/shacl-form'
+import '@om-mediaworks/shacl-form/dist/style.css'
+
+init(defaultOptions)
 
 class App {
 
@@ -61,6 +63,7 @@ class App {
   }
 
   async render () {
+    const Router = (await import('./core/Router')).Router
     const route = await Router.resolve({ pathname: location.pathname })
     const template = await route.template()
     render(document.body, template)

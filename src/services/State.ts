@@ -21,6 +21,7 @@ class State {
     const parser = new Parser({ format: "application/n-quads" });
     window.addEventListener('tab-added', async (event: CustomEvent) => {
       if (event.detail.jsonLd) {
+        console.log(event.detail.jsonLd)
         const nquads = await toRDF(event.detail.jsonLd, {format: 'application/n-quads'})
         await parser.parse(nquads, (error, quad, prefixes) => {
           if (error) console.log(`PARSE ERROR: ${error}`)
@@ -35,11 +36,11 @@ class State {
   }
 
   get settings () {
-    return localStorage.settings ? JSON.parse(localStorage.settings) : {}
+    return localStorage.settings ? localStorage.settings : ''
   }
 
   set settings (newValue) {
-    localStorage.settings = JSON.stringify(newValue)
+    localStorage.settings = newValue
   }
 
   get store () {
@@ -48,6 +49,8 @@ class State {
 
   async getForms () {
     if (this.forms !== null) return this.forms
+
+    if (!this.domains.length) return []
 
     const formsResponse = await this.queryEngine.query(`
       PREFIX forms: <${formsAppOntology}>
